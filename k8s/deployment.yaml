@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posts-backend
+  template:
+    metadata:
+      labels:
+        app: posts-backend
+    spec:
+      containers:
+        - name: posts-backend
+          image: marwanabdelmoneim/posts-backend:v1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URI
+              value: "mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,mongo-2.mongo:27017/p\
+                ostsdb?replicaSet=rs0"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
